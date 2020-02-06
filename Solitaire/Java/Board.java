@@ -1,3 +1,5 @@
+import java.awt.Graphics2D;
+
 public class Board{
     private PileCollection pc;
     private Pile drawPile;
@@ -6,7 +8,7 @@ public class Board{
     
     public Board(){
 
-        pc = new PileCollection(7, 625 - 896/2, 300 - CARD_HEIGHT/2);
+        pc = new PileCollection(7, 625 - 896/2, 300 - CARD_HEIGHT*2);
         //need pc.shuffle
         pc.deal();
     }
@@ -15,5 +17,7 @@ public class Board{
         pc.drawBoarders(g2);
         pc.drawCards(g2);
     }
+
+    public PileCollection getPC(){ return pc; }
 
 }

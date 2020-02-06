@@ -14,16 +14,16 @@ public class Deck{
     private static HashMap<String,Card> map = new HashMap<String,Card>();
     private int size;
 
-    
     public Deck(){
         populateDeck();
         this.size = 52;
     }
+    public int size(){ return size;}
     public void populateDeck(){
         int k = 0;
         for(int i = 0; i < SUITS.length; i++){
             for(int j = 0; j < VALUES.length; j++){
-                deck[k] = new Card(SUITS[i],VALUES[j], 50, 50, loadCardImage("deck.jpg", i, j, CARD_WIDTH, CARD_HEIGHT));
+                deck[k] = new Card(false, SUITS[i],VALUES[j], 50, 50, loadCardImage("deck.jpg", i, j, CARD_WIDTH, CARD_HEIGHT));
                 k++;
             }
         }
