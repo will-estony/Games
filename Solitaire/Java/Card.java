@@ -1,11 +1,15 @@
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 public class Card{
     private String suit;
     private int val;
-    private BufferedImage img;
+    private BufferedImage face;
+    private static BufferedImage back;
     private int xCord;
     private int yCord;
     private Rectangle rect;
@@ -15,13 +19,14 @@ public class Card{
     
     public Card(){};
 
-    public Card(boolean faceUp, String suit, int val, int xCord, int yCord, BufferedImage img){
+    public Card(boolean faceUp, String suit, int val, int xCord, int yCord, BufferedImage face){
         this.faceUp = faceUp;
         this.suit = suit;
         this.val = val;
-        this.img = img;
+        this.face = face;
         this.xCord = xCord;
         this.yCord = yCord;
+        this.back = loadBackImage();
         rect = new Rectangle(xCord, yCord, CARD_HEIGHT, CARD_WIDTH);
     }
 
@@ -35,7 +40,11 @@ public class Card{
         xCord = x;
     }
     public void drawCard(Graphics2D g2){
-        g2.drawImage(this.img,this.xCord,this.yCord, CARD_WIDTH, CARD_HEIGHT,null);
+        if(faceUp){
+            g2.drawImage(this.face,this.xCord,this.yCord, CARD_WIDTH, CARD_HEIGHT,null);
+        }else{
+            g2.drawImage(this.back,this.xCord,this.yCord, CARD_WIDTH, CARD_HEIGHT,null);
+        }
     }
     public boolean cardClicked(int xCord, int yCord){
         if(rect.contains(xCord, yCord)){
@@ -44,10 +53,18 @@ public class Card{
             return false;
         }
     }
+
+    private BufferedImage loadBackImage(){
+        try{
+            return ImageIO.read(new File("cardBacking.jpg"));
+        }catch(IOException e){}
+        return null;
+    }
+
     public void flip(){ faceUp = true; }
 
     public BufferedImage getImg(){
-        return img;
+        return face;
     }
 
     public String toString(){
