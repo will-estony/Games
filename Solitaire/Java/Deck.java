@@ -4,6 +4,7 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 public class Deck{
     private static final String[] SUITS = {"Clubs","Spades","Hearts","Diamonds"};
@@ -79,5 +80,16 @@ public class Deck{
     }
     public static Card getCard(String card){
         return map.get(card);
+    }
+
+    public void shuffle(){
+		for (int i = 0; i < 100000; i++){ 
+			Random random = new Random();
+			int a = random.nextInt(51);
+			int b = random.nextInt(51);
+			Card temp = deck[a];
+			deck[a] = deck[b];
+			deck[b] = temp;
+        }
     }
 }

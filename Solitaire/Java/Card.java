@@ -61,12 +61,27 @@ public class Card{
         return null;
     }
 
-    public void flip(){ faceUp = true; }
+    public void flip(){ 
+        if(!faceUp){
+            faceUp = true; 
+        }else{
+            faceUp = false;
+        }
+    }
 
     public BufferedImage getImg(){
         return face;
     }
 
+    public int getVal(){ return val;}
+    public String getSuit(){ return suit; }
+    public String getColor(){
+        if(this.suit.equals("Clubs") || this.suit.equals("Spades")){
+            return "black";
+        }else{
+            return "red";
+        }
+    }
     public String toString(){
         return this.val + " of " + this.suit;
     }

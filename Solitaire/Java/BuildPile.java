@@ -7,8 +7,6 @@ public class BuildPile extends Pile{
     
     private ArrayList<Card> faceUpCards;
     private ArrayList<Card> faceDownCards;
-    private static final int PILE_Y_BUFFER = 25;
-    private Rectangle pileOutline;  
 
     public BuildPile(int xCord, int yCord){
         super(xCord, yCord);
@@ -31,7 +29,12 @@ public class BuildPile extends Pile{
     }
     //Returns just the number of face up cards
     public int getNumFaceUpCards(){ return faceUpCards.size(); }
-
+    public Card getTopCard(){
+        return faceUpCards.get(0);
+    }
+    public Card getBottomCard(){
+        return faceUpCards.get(faceUpCards.size() -1);
+    }
     //Returns the total number of cards in the pile, both face up and face down
     public int getNumCards(){ return faceDownCards.size() + faceUpCards.size(); }
     public Card getCard(int i){ return faceUpCards.get(i); }
@@ -70,8 +73,7 @@ public class BuildPile extends Pile{
         }
         return p;
     }
-
-    private void clear(){
+    public void clear(){
         for(int i = faceUpCards.size() -1; i >= 0; i--){
             faceUpCards.remove(i);
         }
@@ -86,16 +88,11 @@ public class BuildPile extends Pile{
         p.clear();
     }
     public void append(Card c){
-        
-            c.setXCord(xCord);
-            c.setYCord(yCord + getNumFaceUpCards() * PILE_Y_BUFFER);
-            this.faceUpCards.add(c);
-            this.updateRect();
-        }
-       
-    
-
-
+        c.setXCord(xCord);
+        c.setYCord(yCord + getNumFaceUpCards() * PILE_Y_BUFFER);
+        this.faceUpCards.add(c);
+        this.updateRect();
+    }
     public void popFaceDownCard(){
         if(faceUpCards.size() == 0 && faceDownCards.size() > 0){
             faceUpCards.add(faceDownCards.remove(faceDownCards.size() - 1));
@@ -110,7 +107,6 @@ public class BuildPile extends Pile{
             faceUpCards.get(i).drawCard(g2);
         }
     }
-
     public int getNumFaceDownCards(){ return faceDownCards.size(); }
     public String toString(){
         String ret = "";

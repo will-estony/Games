@@ -4,9 +4,16 @@ public class AcePileCollection extends PileCollection{
     
     public AcePileCollection(int startX, int startY){
         super(NUM_PILES,startX, startY);
+        populatePiles();
     }
-
-    public int clicked(int x, int y){
-        return 0;
+    protected void populatePiles(){
+        for(int i = 0; i < collection.length; i++){
+            int x = startX + (i * (CARD_WIDTH + PILE_X_BUFFER));
+            Pile p = new AcePile(x,startY);
+            collection[i] = p;
+        }
+    }
+    public AcePile getPile(int i){
+        return (AcePile)collection[i];
     }
 }

@@ -4,15 +4,13 @@ import java.awt.Rectangle;
 
 public class DrawPile extends Pile{
 
-    private Rectangle pileOutline;
-    
     private ArrayList<Card> cards;
+
     public DrawPile(int x, int y){
         super(x,y);
         cards = new ArrayList<>();
         pileOutline = new Rectangle(xCord, yCord, CARD_WIDTH, CARD_HEIGHT);
     }
-
     public void drawCards(Graphics2D g2){
         for(Card c: cards){
             c.drawCard(g2);
@@ -23,6 +21,9 @@ public class DrawPile extends Pile{
     }
     public void addCard(Card c){
         cards.add(c);
+    }
+    public Card getCard(int i){
+        return cards.get(i);
     }
     public boolean pileClicked(int x, int y){
         if(pileOutline.contains(x, y)){
@@ -39,18 +40,33 @@ public class DrawPile extends Pile{
         }
         p.clear();
     }
+    public void append(Card c){
+        c.setXCord(xCord);
+        c.setYCord(yCord);
+        this.cards.add(c);
+    }
     public DrawPile getSubPile(){
         DrawPile p = new DrawPile (xCord, yCord);
         int pileSize = cards.size();
-        for(int i = pileSize - 1 ; i >= pileSize - 3; i--){
-            Card c = cards.get(i);
-            c.flip();
-            p.addCard(c);
-            cards.remove(i);
+
+        if(pileSize >= 3){
+            for(int i = pileSize - 1 ; i >= pileSize - 3; i--){
+                Card c = cards.get(i);
+                c.flip();
+                p.addCard(c);
+                cards.remove(i);
+            }
+        }else{
+            for(int i = pileSize - 1 ; i >= 0; i--){
+                Card c = cards.get(i);
+                c.flip();
+                p.addCard(c);
+                cards.remove(i);
+            } 
         }
         return p;
     }
-    private void clear(){
+    public void clear(){
         for(int i = cards.size() -1; i >= 0; i--){
             cards.remove(i);
         }
@@ -58,8 +74,13 @@ public class DrawPile extends Pile{
     public void removeTopCard(){
         cards.remove(cards.size() - 1);
     }
-
     public Card popTopCard(){
-        return cards.get(cards.size() -1);
+        return cards.remove(cards.size() -1);
+    }
+    //Flips every card in the pile
+    public void flipPile(){
+        for(Card c: cards){
+            c.flip();
+        }
     }
 }

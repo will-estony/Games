@@ -17,15 +17,24 @@ public abstract class PileCollection{
         this.startY = startY;
         collection = new Pile[numPiles];
         d = new Deck();
+        d.shuffle();
         pileClicked = -1;
     }
 
-    public abstract int clicked(int x, int y);
+    protected abstract void populatePiles();
 
     public void drawBorders(Graphics2D g2){
         for(int i = 0; i < collection.length; i++){
             collection[i].drawBorder(g2);
         }
+    }
+    public int clicked(int x, int y){
+        for(int i = 0; i < collection.length; i++){
+            if(collection[i].pileClicked(x, y)){
+                return i;
+            }
+        }
+        return -1;
     }
     
     public void drawCards(Graphics2D g2){

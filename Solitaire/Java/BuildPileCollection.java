@@ -10,23 +10,13 @@ public class BuildPileCollection extends PileCollection{
 
     public int getStartY(){ return startY; }
 
-    public int clicked(int xCord, int yCord){
-        for(int i = 0; i < collection.length; i++){
-            if(collection[i].pileClicked(xCord, yCord)){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private void populatePiles(){
+    protected void populatePiles(){
         for(int i = 0; i < collection.length; i++){
             int x = startX + (i * (CARD_WIDTH + PILE_X_BUFFER));
             Pile p = new BuildPile(x,startY);
             collection[i] = p;
         }
     }
-    
     //The only difference between this method and clicked, is clicked requires at least 
     //one card to be in the pile so as to avoid an index out of bounds error
     //A card can be released on even an empty pile.
@@ -42,7 +32,6 @@ public class BuildPileCollection extends PileCollection{
     }
     
     public void deal(){
-        System.out.println(d.size());
         for(int i = 0; i < collection.length; i++){
             int x = startX + (i * (CARD_WIDTH + PILE_X_BUFFER));
             Card c = d.popTopCard();
