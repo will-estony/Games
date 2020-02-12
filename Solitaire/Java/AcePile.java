@@ -1,14 +1,25 @@
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AcePile extends Pile{
 
     private ArrayList<Card> cards = new ArrayList<>();
+    private String suit;
+    private static final String[] validSuits = {"Spades", "Clubs", "Hearts", "Diamonds"};
 
     public AcePile(int x, int y){
         super(x, y);
         pileOutline = new Rectangle(xCord, yCord, CARD_WIDTH, CARD_HEIGHT);
+        suit = "wild";
+    }
+
+    public String getSuit(){ return suit; }
+    public void setSuit(String suit){
+        if(Arrays.asList(validSuits).contains(suit)){
+            this.suit = suit;
+        }
     }
 
     public void drawCards(Graphics2D g2){
@@ -38,7 +49,9 @@ public class AcePile extends Pile{
         }
     }
     public Card popTopCard(){
-        return cards.remove(cards.size() -1);
+        return cards.remove(cards.size() - 1);
     }
-
+    public Card getTopCard(){
+        return cards.get(cards.size() - 1);
+    }
 }

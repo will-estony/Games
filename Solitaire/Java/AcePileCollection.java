@@ -16,4 +16,12 @@ public class AcePileCollection extends PileCollection{
     public AcePile getPile(int i){
         return (AcePile)collection[i];
     }
+    public boolean checkWin(){
+        for(int i = 0; i < collection.length; i++){
+            if(collection[i].getNumCards() < 13){
+                return false;
+            }
+        }
+        return true;
+    }
 }

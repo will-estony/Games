@@ -90,21 +90,22 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener{
             /* Get rid of the subPile by appending it to one of the 7 piles in PC */
             if(buildPileReleasedOn > -1){
                 if(subPile.getNumFaceUpCards() + board.getBuildPiles().getPile(buildPileReleasedOn).getNumFaceUpCards() <= 13){
-                    if(rules.validMove(board.getBuildPiles().getPile(buildPileReleasedOn).getBottomCard(), subPile.getTopCard())){
-                        System.out.println("Bottom Card of build Pile: " + board.getBuildPiles().getPile(buildPileReleasedOn).getBottomCard());
-                        System.out.println("Top Card of subPile: " + subPile.getTopCard());
+                    //System.out.println(board.getBuildPiles().getPile(buildPileReleasedOn).getBottomCard());
+                    if(rules.validMove(board.getBuildPiles().getPile(buildPileReleasedOn), subPile.getTopCard())){
                         board.getBuildPiles().getPile(buildPileReleasedOn).append(subPile);
-                        
                     }else{
                         board.getBuildPiles().getPile(buildPileSelected).append(subPile);
                     }
-                    
                 }else{
                     board.getBuildPiles().getPile(buildPileSelected).append(subPile);
                 }
             }else if(acePileReleasedOn > -1 && subPile.getNumFaceUpCards() == 1){
                 if(board.getAcePiles().getPile(acePileReleasedOn).getNumCards() < 13){
-                    board.getAcePiles().getPile(acePileReleasedOn).addCard(subPile);
+                    if(rules.validMove(board.getAcePiles().getPile(acePileReleasedOn), subPile.getCard(0))){
+                        board.getAcePiles().getPile(acePileReleasedOn).addCard(subPile);
+                    }else{
+                        board.getBuildPiles().getPile(buildPileSelected).append(subPile);
+                    }
                 }else{
                     board.getBuildPiles().getPile(buildPileSelected).append(subPile);
                 }
@@ -120,25 +121,37 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener{
             draw3 = false;
         }else if(playDrawCard){
             if(buildPileReleasedOn > -1){
-                if(board.getBuildPiles().getPile(buildPileReleasedOn).getNumFaceUpCards() + 1 <= 13){
-                    board.getBuildPiles().getPile(buildPileReleasedOn).append(drawCard);
+                if(board.getBuildPiles().getPile(buildPileReleasedOn).getNumFaceUpCards() < 13){
+                    if(rules.validMove(board.getBuildPiles().getPile(buildPileReleasedOn), drawCard)){
+                        board.getBuildPiles().getPile(buildPileReleasedOn).append(drawCard);
+                    }else{
+                        board.getDrawPile().getPile(1).append(drawCard);
+                    }
                 }else{
-                    board.getDrawPile().getPile(1).addCard(drawCard);
+                    board.getDrawPile().getPile(1).append(drawCard);
                 }
             }else if(acePileReleasedOn > -1){
                 if(board.getAcePiles().getPile(acePileReleasedOn).getNumCards() < 13){
-                    board.getAcePiles().getPile(acePileReleasedOn).addCard(drawCard);
+                    if(rules.validMove(board.getAcePiles().getPile(acePileReleasedOn), drawCard)){
+                        board.getAcePiles().getPile(acePileReleasedOn).addCard(drawCard);
+                    }else{
+                        board.getDrawPile().getPile(1).append(drawCard);
+                    }
                 }else{
-                    board.getDrawPile().getPile(1).addCard(drawCard);
+                    board.getDrawPile().getPile(1).append(drawCard);
                 }
             }else{
-                board.getDrawPile().getPile(1).addCard(drawCard);
+                board.getDrawPile().getPile(1).append(drawCard);
             }
             playDrawCard = false;   
         }else if(playAceCard){
             if(buildPileReleasedOn > -1){
-                if(board.getBuildPiles().getPile(buildPileReleasedOn).getNumFaceUpCards() + 1 <= 13){
-                    board.getBuildPiles().getPile(buildPileReleasedOn).append(drawCard);
+                if(board.getBuildPiles().getPile(buildPileReleasedOn).getNumFaceUpCards() < 13){
+                    if(rules.validMove(board.getBuildPiles().getPile(buildPileReleasedOn), drawCard)){
+                        board.getBuildPiles().getPile(buildPileReleasedOn).append(drawCard);
+                    }else{
+                        board.getDrawPile().getPile(1).addCard(drawCard);
+                    }
                 }else{
                     board.getDrawPile().getPile(1).addCard(drawCard);
                 }
@@ -148,6 +161,9 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener{
             playAceCard = false;
         }
         repaint();
+        if(board.getAcePiles().checkWin()){
+            System.out.println("YOU WIN!");
+        }
     }
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}

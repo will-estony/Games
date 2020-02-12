@@ -17,7 +17,6 @@ public class Deck{
 
     public Deck(){
         populateDeck();
-        this.size = 52;
     }
     public int size(){ return size;}
     public void populateDeck(){
@@ -28,10 +27,12 @@ public class Deck{
                 k++;
             }
         }
+        size = deck.length;
+        this.shuffle();
     }
     public BufferedImage loadCardImage(String fileName, int i, int j, int cardWidth, int cardHeight){
         try{
-            BufferedImage img = ImageIO.read(new File(fileName));
+            BufferedImage img = ImageIO.read(getClass().getResource(fileName));
             return img.getSubimage(j * cardWidth, i * cardHeight, cardWidth, cardHeight);
 
         }catch(IOException e){}
@@ -50,8 +51,7 @@ public class Deck{
         }
     }
     public Card popTopCard(){
-        size--;
-        return deck[size];
+        return deck[--size];
     }
     public void putTopCard(Card c){
         deck[size] = c;
@@ -83,11 +83,13 @@ public class Deck{
     }
 
     public void shuffle(){
+        Random random = new Random();
+        int a,b;
+        Card temp;
 		for (int i = 0; i < 100000; i++){ 
-			Random random = new Random();
-			int a = random.nextInt(51);
-			int b = random.nextInt(51);
-			Card temp = deck[a];
+			a = random.nextInt(52);
+            b = random.nextInt(52);
+			temp = deck[a];
 			deck[a] = deck[b];
 			deck[b] = temp;
         }

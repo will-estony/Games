@@ -56,7 +56,7 @@ public class Card{
 
     private BufferedImage loadBackImage(){
         try{
-            return ImageIO.read(new File("cardBacking.jpg"));
+            return ImageIO.read(getClass().getResource("cardBacking.jpg"));
         }catch(IOException e){}
         return null;
     }

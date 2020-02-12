@@ -17,7 +17,6 @@ public abstract class PileCollection{
         this.startY = startY;
         collection = new Pile[numPiles];
         d = new Deck();
-        d.shuffle();
         pileClicked = -1;
     }
 
