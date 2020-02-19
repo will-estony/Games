@@ -2,6 +2,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.ArrayList;
 
 public abstract class Pile{
 
@@ -25,9 +26,14 @@ public abstract class Pile{
         g2.setStroke(new BasicStroke(5));
         g2.draw(cardOutline);
     }
+    public abstract void append(Pile p);
+    public abstract Card popTopCard();
+    public abstract Card popBottomCard();
+    public abstract void clear();
     public abstract void drawCards(Graphics2D g2);
     public abstract int getNumCards();
     public abstract void addCard(Card c);
+    public abstract ArrayList<Card> getCards();
     public abstract boolean pileClicked(int x, int y);
     public int getXCord(){ return xCord; }
     public int getYCord(){ return yCord; }

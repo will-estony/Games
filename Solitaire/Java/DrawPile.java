@@ -16,6 +16,9 @@ public class DrawPile extends Pile{
             c.drawCard(g2);
         }
     }
+    public ArrayList<Card> getCards(){
+        return cards;
+    }
     public int getNumCards(){
         return cards.size();
     }
@@ -31,6 +34,14 @@ public class DrawPile extends Pile{
         }else{
             return false;
         }
+    }
+    public void append(Pile p){
+        for(Card c: p.getCards()){
+            c.setXCord(xCord);
+            c.setYCord(yCord);
+            this.cards.add(c);
+        }
+        p.clear();
     }
     public void append(DrawPile p){
         for(Card c: p.cards){
@@ -76,6 +87,9 @@ public class DrawPile extends Pile{
     }
     public Card popTopCard(){
         return cards.remove(cards.size() -1);
+    }
+    public Card popBottomCard(){
+        return cards.remove(0);
     }
     //Flips every card in the pile
     public void flipPile(){

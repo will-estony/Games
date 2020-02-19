@@ -14,6 +14,9 @@ public class AcePile extends Pile{
         pileOutline = new Rectangle(xCord, yCord, CARD_WIDTH, CARD_HEIGHT);
         suit = "wild";
     }
+    public ArrayList<Card> getCards(){
+        return cards;
+    }
 
     public String getSuit(){ return suit; }
     public void setSuit(String suit){
@@ -35,11 +38,15 @@ public class AcePile extends Pile{
         c.setYCord(yCord);
         cards.add(c);
     }
-    public void addCard(BuildPile p){
-        p.getCard(0).setXCord(xCord);
-        p.getCard(0).setYCord(yCord);
-        cards.add(p.getCard(0));
+    public void append(Pile p){
+
+        p.popBottomCard().setXCord(xCord);
+        p.popBottomCard().setYCord(yCord);
+        cards.add(p.popBottomCard());
         p.clear();
+    }
+    public void clear(){
+        cards.clear();
     }
     public boolean pileClicked(int x, int y){
         if(pileOutline.contains(x, y)){
@@ -47,6 +54,9 @@ public class AcePile extends Pile{
         }else{
             return false;
         }
+    }
+    public Card popBottomCard(){
+        return cards.remove(0);
     }
     public Card popTopCard(){
         return cards.remove(cards.size() - 1);

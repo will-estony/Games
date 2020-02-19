@@ -39,7 +39,6 @@ public class BuildPileCollection extends PileCollection{
             c.setYCord(startY);
             c.flip();
             collection[i].addCard(c);
-
             for(int j = i + 1; j < collection.length; j++){
                 x = startX + (j * (CARD_WIDTH + PILE_X_BUFFER));
                 c = d.popTopCard();

@@ -15,6 +15,29 @@ public class BuildPile extends Pile{
         pileOutline = new Rectangle(xCord, yCord, CARD_WIDTH, CARD_HEIGHT);
     }
 
+    public BuildPile(){
+        super(0,0);
+        faceUpCards = new ArrayList<Card>();
+        faceDownCards = new ArrayList<Card>();
+        pileOutline = new Rectangle(xCord, yCord, CARD_WIDTH, CARD_HEIGHT);
+    }
+    public void clearBuildPile(){
+        int size = getNumFaceUpCards();
+        for(int i = 0; i < size; i++){
+            faceUpCards.remove(i);
+        }
+    }
+
+    public Card popBottomCard(){
+        return faceUpCards.get(0);
+    }
+    public Card popTopCard(){
+        return faceUpCards.remove(faceUpCards.size() -1);
+    }
+
+    public ArrayList<Card> getCards(){
+        return faceUpCards;
+    }
 
     public void addCard(Card c){
         if(c.getFaceUp()){
@@ -78,8 +101,8 @@ public class BuildPile extends Pile{
             faceUpCards.remove(i);
         }
     }
-    public void append(BuildPile p){
-        for(Card c: p.faceUpCards){
+    public void append(Pile p){
+        for(Card c: p.getCards()){
             c.setXCord(xCord);
             c.setYCord(yCord + getNumFaceUpCards() * PILE_Y_BUFFER);
             this.faceUpCards.add(c);
@@ -93,7 +116,7 @@ public class BuildPile extends Pile{
         this.faceUpCards.add(c);
         this.updateRect();
     }
-    public void popFaceDownCard(){
+    public void flip(){
         if(faceUpCards.size() == 0 && faceDownCards.size() > 0){
             faceUpCards.add(faceDownCards.remove(faceDownCards.size() - 1));
             faceUpCards.get(0).flip();
